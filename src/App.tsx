@@ -35,7 +35,7 @@ function App() {
     }
 
     const addMessage = (title: string) => {
-        let newMessage = {id: v1(), title: title, isDone: true}
+        let newMessage = {id: v1(), title: title, isDone: false}
         setTasks([newMessage, ...tasks])
     }
 
