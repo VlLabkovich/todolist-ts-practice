@@ -9,17 +9,25 @@ type TaskType = {
 }
 
 type PropsType = {
-    id: string
+    todolistId: string
     title: string
     tasks: Array<TaskType>
     removeTask: (taskId: string) => void
-    changeFilter: (value: FilterValuesType) => void
+    changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string) => void
     changeTaskStatus: (taskId: string, newIsDone: boolean) => void
     filter: string
 }
 
-export function Todolist({title, filter, changeFilter, tasks, changeTaskStatus, removeTask, addTask}: PropsType) {
+export function Todolist({
+                             todolistId,
+                             title,
+                             filter,
+                             changeFilter,
+                             tasks,
+                             changeTaskStatus,
+                             removeTask,
+                             addTask}: PropsType) {
 
     let [taskTitle, setTaskTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -45,7 +53,7 @@ export function Todolist({title, filter, changeFilter, tasks, changeTaskStatus, 
     }
 
     const onChangeFilter = (value: FilterValuesType) => {
-        changeFilter(value)
+        changeFilter(value, todolistId)
     }
 
     const mappedTasks = tasks.map(t => {
