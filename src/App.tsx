@@ -34,23 +34,24 @@ function App() {
         setFilter(value);
     }
 
-    const addMessage = (title: string) => {
+    const addTaskHandler = (title: string) => {
         let newMessage = {id: v1(), title: title, isDone: false}
         setTasks([newMessage, ...tasks])
     }
 
-    const changeStatus = (taskId: string, newIsDone: boolean) => {
+    const changeTasksStatus = (taskId: string, newIsDone: boolean) => {
         setTasks(tasks.map(task => task.id === taskId ? {...task, isDone: newIsDone} : task))
     }
 
     return (
         <div className="App">
-            <Todolist title="What to learn"
+            <Todolist
+                      title="What to learn"
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
-                      addMessage={addMessage}
-                      changeStatus={changeStatus}
+                      addTask={addTaskHandler}
+                      changeTaskStatus={changeTasksStatus}
                       filter={filter}
             />
         </div>
