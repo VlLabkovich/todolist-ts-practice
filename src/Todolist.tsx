@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import s from './Todolist.module.css'
+import {Button} from "./components/Button";
 
 export type TaskType = {
     id: string
@@ -17,6 +18,7 @@ type PropsType = {
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, newIsDone: boolean, todolistId: string) => void
     filter: string
+    removeTodolist: (todolistId: string) => void
 }
 
 export function Todolist({
@@ -27,7 +29,8 @@ export function Todolist({
                              tasks,
                              changeTaskStatus,
                              removeTask,
-                             addTask}: PropsType) {
+                             addTask,
+                             removeTodolist}: PropsType) {
 
     let [taskTitle, setTaskTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -75,9 +78,15 @@ export function Todolist({
         }
     )
 
+    const removeHandlerTodolist = () => {
+        removeTodolist(todolistId)
+    }
 
     return <div>
-        <h3>{title}</h3>
+        <div className='title-btn-del-todo'>
+            <h3>{title}</h3>
+            <Button title='X' onClick={removeHandlerTodolist}/>
+        </div>
         <div>
             <input className={error ? s.error : ''}
                    value={taskTitle}

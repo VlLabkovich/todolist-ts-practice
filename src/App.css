@@ -7,3 +7,9 @@
 .App > div {
   margin-right: 50px;
 }
+
+.title-btn-del-todo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
