@@ -64,7 +64,12 @@ function App() {
     }
 
     const removeHandlerTodolist = (todolistId: string) => {
+        // сетаем оставшийся тудулист
         setTodolists(todolists.filter(el => el.id !== todolistId))
+        // удаляем из стейта таски относящиеся к удалённому тудулисту
+        delete tasks[todolistId]
+        // сетаем(обновляем) изменённую копию объекта в стейт
+        setTasks({...tasks})
     }
     return (
         <div className="App">
