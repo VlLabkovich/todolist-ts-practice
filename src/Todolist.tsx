@@ -2,7 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import s from './Todolist.module.css'
 
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -12,10 +12,10 @@ type PropsType = {
     todolistId: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskId: string) => void
+    removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, newIsDone: boolean) => void
+    addTask: (title: string, todolistId: string) => void
+    changeTaskStatus: (taskId: string, newIsDone: boolean, todolistId: string) => void
     filter: string
 }
 
@@ -34,7 +34,7 @@ export function Todolist({
 
     const addTaskHandler = () => {
         if (taskTitle.trim() !== '') {
-            addTask(taskTitle.trim())
+            addTask(taskTitle.trim(), todolistId)
             setTaskTitle('')
         } else {
             setError('This is required')
@@ -58,7 +58,7 @@ export function Todolist({
 
     const mappedTasks = tasks.map(t => {
         const changeStatusHandler = (event: ChangeEvent<HTMLInputElement> ) => {
-        changeTaskStatus(t.id, event.currentTarget.checked)
+        changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
         }
 
       return  <li key={t.id} className={t.isDone? s.isDone : ''}>
@@ -70,7 +70,7 @@ export function Todolist({
                 onChange={changeStatusHandler}
             />
             <span>{t.title}</span>
-            <button onClick={() => {removeTask(t.id)}}>x</button>
+            <button onClick={() => {removeTask(t.id, todolistId)}}>x</button>
         </li>
         }
     )
