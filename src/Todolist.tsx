@@ -73,7 +73,7 @@ export function Todolist({
                 onChange={changeStatusHandler}
             />
             <span>{t.title}</span>
-            <button onClick={() => {removeTask(t.id, todolistId)}}>x</button>
+            <Button title='x' onClick={() => {removeTask(t.id, todolistId)}}/>
         </li>
         }
     )
@@ -92,20 +92,20 @@ export function Todolist({
                    value={taskTitle}
                    onChange={onChangeEventHandler}
                    onKeyDown={onKeyDownEventHandler}/>
-            <button onClick={addTaskHandler}>+</button>
+            <Button title='+' onClick={addTaskHandler}/>
             {error && <div className={s.errorMessage}>{error}</div>}
         </div>
         <ul>{mappedTasks}</ul>
 
         <div>
-            <button className={filter === 'all' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("all")}}>All</button>
+            <Button title='All' className={filter === 'all' ? s.activeFilter: ''}
+                    onClick={() => {onChangeFilter("all")}} />
 
-            <button className={filter === 'active' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("active")}}>Active</button>
+            <Button title='Active' className={filter === 'active' ? s.activeFilter: ''}
+                    onClick={() => {onChangeFilter("active")}}/>
 
-            <button className={filter === 'completed' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("completed")}}>Completed</button>
+            <Button title='Completed' className={filter === 'completed' ? s.activeFilter: ''}
+                    onClick={() => {onChangeFilter("completed")}}/>
         </div>
 
     </div>
