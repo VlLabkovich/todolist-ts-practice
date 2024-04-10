@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
+import {AddItemForm} from "./components/AddItemForm";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -75,9 +76,18 @@ function App() {
         // сетаем(обновляем) изменённую копию объекта в стейт
         setTasks({...tasks})
     }
-    return (
-        <div className="App">
 
+    const addTodolist = (taskTitle: string) => {
+        const todolistId = v1()
+        const newTodolist: TodolistType = {id: todolistId, title: taskTitle, filter: 'all'}
+        setTodolists([newTodolist, ...todolists])
+        setTasks({...tasks, [todolistId]:[]})
+    }
+
+
+return (
+        <div className="App">
+                <AddItemForm addItem={addTodolist}/>
             {todolists.map(el => {
 
                 const allTodolistTasks = tasks[el.id]
