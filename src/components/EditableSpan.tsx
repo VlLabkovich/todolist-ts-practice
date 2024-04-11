@@ -9,13 +9,16 @@ export const EditableSpan = ({
                                  updateTitle
                              }: Props) => {
 
-    const[edit, setEdit] = useState<boolean>(false);
+    const [edit, setEdit] = useState<boolean>(false);
 
-    const[newTitle, setNewTitle] = useState<string>(oldTitle);
+    const [newTitle, setNewTitle] = useState<string>(oldTitle);
 
     const editModeHandler = () => {
         setEdit(!edit);
-        updateItemHandler()
+        if(edit) {
+            updateItemHandler()
+        }
+
     }
 
     const editEventTitle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +36,6 @@ export const EditableSpan = ({
                       onBlur={editModeHandler}
                       autoFocus={true}/>
             :
-            <span onDoubleClick={editModeHandler}>
-              {oldTitle}
-            </span>
+            <span onDoubleClick={editModeHandler}>{oldTitle}</span>
     );
 };
