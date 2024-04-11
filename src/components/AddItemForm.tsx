@@ -5,16 +5,16 @@ import {Button} from "./Button";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type PropsAddItemForm = {
-    addItem: (taskTitle: string) => void
+    addItem: (itemTitle: string) => void
 };
 export const AddItemForm = ({addItem}: PropsAddItemForm) => {
 
     let [error, setError] = useState<string | null>(null)
-    let [taskTitle, setItemTitle] = useState('')
+    let [itemTitle, setItemTitle] = useState('')
 
     const addItemHandler = () => {
-        if (taskTitle.trim() !== '') {
-            addItem(taskTitle.trim())
+        if (itemTitle.trim() !== '') {
+            addItem(itemTitle.trim())
             setItemTitle('')
         } else {
             setError('This is required')
@@ -35,7 +35,7 @@ export const AddItemForm = ({addItem}: PropsAddItemForm) => {
     return (
         <div>
             <input className={error ? s.error : ''}
-                   value={taskTitle}
+                   value={itemTitle}
                    onChange={onChangeEventHandler}
                    onKeyDown={onKeyDownEventHandler}/>
             <Button title='+' onClick={addItemHandler}/>

@@ -74,8 +74,8 @@ export function Todolist({
         removeTodolist(todolistId)
     }
 
-    const addItemHandler = (taskTitle: string) => {
-        addTask(taskTitle, todolistId)
+    const addItemHandler = (itemTitle: string) => {
+        addTask(itemTitle, todolistId)
     }
 
     const updateTodolistHandler = (newTitle: string) => {
