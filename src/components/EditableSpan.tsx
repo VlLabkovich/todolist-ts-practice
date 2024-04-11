@@ -15,7 +15,7 @@ export const EditableSpan = ({
 
     const editModeHandler = () => {
         setEdit(!edit);
-        updateTaskHandler()
+        updateItemHandler()
     }
 
     const editEventTitle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ export const EditableSpan = ({
 
     }
 
-    const updateTaskHandler = () => {
+    const updateItemHandler = () => {
         updateTitle(newTitle.trim())
     }
 
