@@ -3,6 +3,7 @@ import {FilterValuesType} from './App';
 import s from './Todolist.module.css'
 import {Button} from "./components/Button";
 import {AddItemForm} from "./components/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan";
 
 export type TaskType = {
     id: string
@@ -20,6 +21,7 @@ type PropsType = {
     changeTaskStatus: (taskId: string, newIsDone: boolean, todolistId: string) => void
     filter: string
     removeTodolist: (todolistId: string) => void
+    updateTaskTitle: (newTitle: string, todolistId: string, taskId: string) => void
 }
 
 export function Todolist({
@@ -31,27 +33,38 @@ export function Todolist({
                              changeTaskStatus,
                              removeTask,
                              addTask,
-                             removeTodolist}: PropsType) {
+                             removeTodolist,
+                             updateTaskTitle
+                         }: PropsType) {
 
     const onChangeFilter = (value: FilterValuesType) => {
         changeFilter(value, todolistId)
     }
 
     const mappedTasks = tasks.map(t => {
-        const changeStatusHandler = (event: ChangeEvent<HTMLInputElement> ) => {
-        changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
-        }
+            const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+            }
 
-      return  <li key={t.id} className={t.isDone? s.isDone : ''}>
+            const updateTaskHandler = (newTitle:string) => {
+                updateTaskTitle(newTitle, todolistId, t.id)
+            }
 
-            <input
-                type="checkbox"
-                checked={t.isDone}
-                onChange={changeStatusHandler}
-            />
-            <span>{t.title}</span>
-            <Button title='x' onClick={() => {removeTask(t.id, todolistId)}}/>
-        </li>
+
+            return <li key={t.id} className={t.isDone ? s.isDone : ''}>
+
+                <input
+                    type="checkbox"
+                    checked={t.isDone}
+                    onChange={changeStatusHandler}
+                />
+
+              <EditableSpan oldTitle={t.title} updateTitle={updateTaskHandler}/>
+
+                <Button title='x' onClick={() => {
+                    removeTask(t.id, todolistId)
+                }}/>
+            </li>
         }
     )
 
@@ -59,7 +72,7 @@ export function Todolist({
         removeTodolist(todolistId)
     }
 
-    const addTaskHandler = (taskTitle: string) => {
+    const addItemHandler = (taskTitle: string) => {
         addTask(taskTitle, todolistId)
     }
 
@@ -70,19 +83,25 @@ export function Todolist({
             <Button title='X' onClick={removeHandlerTodolist}/>
         </div>
         <div>
-            <AddItemForm addItem={addTaskHandler} />
+            <AddItemForm addItem={addItemHandler}/>
         </div>
         <ul>{mappedTasks}</ul>
 
         <div>
-            <Button title='All' className={filter === 'all' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("all")}} />
+            <Button title='All' className={filter === 'all' ? s.activeFilter : ''}
+                    onClick={() => {
+                        onChangeFilter("all")
+                    }}/>
 
-            <Button title='Active' className={filter === 'active' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("active")}}/>
+            <Button title='Active' className={filter === 'active' ? s.activeFilter : ''}
+                    onClick={() => {
+                        onChangeFilter("active")
+                    }}/>
 
-            <Button title='Completed' className={filter === 'completed' ? s.activeFilter: ''}
-                    onClick={() => {onChangeFilter("completed")}}/>
+            <Button title='Completed' className={filter === 'completed' ? s.activeFilter : ''}
+                    onClick={() => {
+                        onChangeFilter("completed")
+                    }}/>
         </div>
 
     </div>
