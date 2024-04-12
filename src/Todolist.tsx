@@ -43,32 +43,28 @@ export function Todolist({
         changeFilter(value, todolistId)
     }
 
-    const mappedTasks = tasks.map(t => {
-            const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
-            }
-
-            const updateTaskHandler = (newTitle:string) => {
-                updateTaskTitle(newTitle, todolistId, t.id)
-            }
-
-
-            return <li key={t.id} className={t.isDone ? s.isDone : ''}>
-
-                <input
-                    type="checkbox"
-                    checked={t.isDone}
-                    onChange={changeStatusHandler}
-                />
-
-              <EditableSpan oldTitle={t.title} updateTitle={updateTaskHandler}/>
-
-                <Button title='x' onClick={() => {
-                    removeTask(t.id, todolistId)
-                }}/>
-            </li>
-        }
-    )
+    // const mappedTasks = tasks.map(t => {
+        //         const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        //             changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+        //         }
+        //         return (
+        //             <li key={t.id} className={t.isDone ? s.isDone : ''}>
+        //
+        //                 <input
+        //                     type="checkbox"
+        //                     checked={t.isDone}
+        //                     onChange={changeStatusHandler}
+        //                 />
+        //
+        //                 <EditableSpan oldTitle={t.title} updateTitle={(newTitle)=> updateTaskTitle(newTitle, todolistId,t.id)}/>
+        //
+        //                 <Button title='x' onClick={() => {
+        //                     removeTask(t.id, todolistId)
+        //                 }}/>
+        //             </li>
+        //         )
+        //     }
+        // )
 
     const removeHandlerTodolist = () => {
         removeTodolist(todolistId)
@@ -82,8 +78,6 @@ export function Todolist({
         updateTodolistTitle(todolistId, newTitle)
     }
 
-
-
     return <div>
         <div className='title-btn-del-todo'>
             <h3>
@@ -95,7 +89,37 @@ export function Todolist({
         <div>
             <AddItemForm addItem={addItemHandler}/>
         </div>
-        <ul>{mappedTasks}</ul>
+        {/*<ul>{mappedTasks}</ul>*/}
+        {
+            tasks.length === 0 ?
+                <span>Тасок нет</span>
+                :
+                <ul>
+                    {
+                        tasks.map(t => {
+                                const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                                    changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+                                }
+                                return (
+                                    <li key={t.id} className={t.isDone ? s.isDone : ''}>
+                                        <input
+                                            type="checkbox"
+                                            checked={t.isDone}
+                                            onChange={changeStatusHandler}
+                                        />
+                                        <EditableSpan oldTitle={t.title}
+                                        updateTitle={(newTitle:string)=>{updateTaskTitle(newTitle, todolistId, t.id)}}/>
+
+                                        <Button title='x' onClick={() => {
+                                            removeTask(t.id, todolistId)
+                                        }}/>
+                                    </li>
+                                )
+                            }
+                        )
+                    }
+                </ul>
+        }
 
         <div>
             <Button title='All' className={filter === 'all' ? s.activeFilter : ''}
