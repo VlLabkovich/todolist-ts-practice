@@ -1,8 +1,8 @@
 
 import * as React from 'react';
-import s from "../Todolist.module.css";
-import {Button} from "./Button";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 type PropsAddItemForm = {
     addItem: (itemTitle: string) => void
@@ -34,12 +34,18 @@ export const AddItemForm = ({addItem}: PropsAddItemForm) => {
 
     return (
         <div>
-            <input className={error ? s.error : ''}
-                   value={itemTitle}
-                   onChange={onChangeEventHandler}
-                   onKeyDown={onKeyDownEventHandler}/>
-            <Button title='+' onClick={addItemHandler}/>
-            {error && <div className={s.errorMessage}>{error}</div>}
+            <TextField variant="outlined"
+                       label="Enter in title"
+                       size={'small'}
+                       error={!!error}
+                       helperText={error}
+                       value={itemTitle}
+                       onChange={onChangeEventHandler}
+                       onKeyDown={onKeyDownEventHandler}
+            />
+            <Button variant={'contained'}
+                    onClick={addItemHandler}
+            >+</Button>
         </div>
     );
 };
