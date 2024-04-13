@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Box from '@mui/material/Box'
+import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
+
 
 
 export type TaskType = {
@@ -84,7 +87,7 @@ export function Todolist({
     }
 
     return <div>
-        <div className= 'todolist-title-container'>
+        <div className='todolist-title-container'>
             <h3>
                 <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
             </h3>
@@ -107,16 +110,20 @@ export function Todolist({
                                     changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
                                 }
                                 return (
-                                    <ListItem  key={t.id} className={t.isDone ? 'isDone' : ''}>
+                                    <ListItem key={t.id}
+                                              sx={getListItemSx(t.isDone) }
+                                              >
+                                        <div>
+                                            <Checkbox
+                                                checked={t.isDone}
+                                                onChange={changeStatusHandler}
+                                            />
+                                            <EditableSpan oldTitle={t.title}
+                                                          updateTitle={(newTitle: string) => {
+                                                              updateTaskTitle(newTitle, todolistId, t.id)
+                                                          }}/>
+                                        </div>
 
-                                        <Checkbox
-                                            checked={t.isDone}
-                                            onChange={changeStatusHandler}
-                                        />
-                                        <EditableSpan oldTitle={t.title}
-                                                      updateTitle={(newTitle: string) => {
-                                                          updateTaskTitle(newTitle, todolistId, t.id)
-                                                      }}/>
                                         <IconButton aria-label="delete" onClick={() => {
                                             removeTask(t.id, todolistId)
                                         }} size="medium">
@@ -130,7 +137,7 @@ export function Todolist({
                 </List>
         }
 
-        <div>
+        <Box sx={filterButtonsContainerSx}>
             <Button color={'error'}
                     variant={filter === 'all' ? 'outlined' : 'contained'}
                     onClick={() => {
@@ -147,6 +154,6 @@ export function Todolist({
                     onClick={() => {
                         onChangeFilter("completed")
                     }}>Completed</Button>
-        </div>
+        </Box>
     </div>
 }

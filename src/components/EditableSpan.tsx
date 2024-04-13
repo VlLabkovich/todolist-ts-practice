@@ -39,7 +39,6 @@ export const EditableSpan = ({
         edit ?
 
             <TextField variant="standard"
-                       size={'small'}
                        label="Enter in task"
                 // multiline={true}
                        // rows={2}

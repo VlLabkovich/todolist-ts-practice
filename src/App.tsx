@@ -11,6 +11,7 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import Paper from '@mui/material/Paper';
+import {MenuButton} from "./components/MenuButton";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -103,17 +104,25 @@ function App() {
     return (
         <div className="App">
 
-            <AppBar position="static">
-                <Toolbar>
+            <AppBar position="static"
+                    sx={{marginBottom: '30px'}}
+            >
+                <Toolbar  sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <IconButton color="inherit">
                         <MenuIcon/>
                     </IconButton>
-                    <Button color="inherit">Login</Button>
+                    <div>
+                        <MenuButton>Login</MenuButton>
+                        <MenuButton>Logout</MenuButton>
+                        <MenuButton>Faq</MenuButton>
+                    </div>
                 </Toolbar>
             </AppBar>
 
             <Container fixed>
-                <Grid container>
+                <Grid container
+                      sx={{marginBottom: '30px'}}
+                >
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={4}>
@@ -132,7 +141,8 @@ function App() {
 
                         return (
                             <Grid>
-                                <Paper elevation={2}>
+                                <Paper elevation={2}
+                                       sx={{padding: '0 20px 20px 20px'}}>
                                     <Todolist
                                         key={el.id}
                                         todolistId={el.id}
