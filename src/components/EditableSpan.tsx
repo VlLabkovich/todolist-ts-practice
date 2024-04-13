@@ -29,7 +29,10 @@ export const EditableSpan = ({
     }
 
     const updateItemHandler = () => {
-        updateTitle(newTitle.trim())
+        if (newTitle.trim() !== '') {
+            updateTitle(newTitle.trim())
+        }
+
     }
 
     return (
@@ -37,7 +40,8 @@ export const EditableSpan = ({
 
             <TextField variant="standard"
                        size={'small'}
-                       // multiline={true}
+                       label="Enter in task"
+                // multiline={true}
                        // rows={2}
                        value={newTitle}
                        onChange={editEventTitle}
