@@ -1,15 +1,17 @@
-
 .App {
-  padding: 30px;
-  display: flex;
+  /*padding: 30px;*/
+  /*display: flex;*/
 }
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
-.title-btn-del-todo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+
+.isDone {
+    opacity: 0.5;
+}
+.todolist-title-container {
+    display: flex;
+    align-items: center;
 }

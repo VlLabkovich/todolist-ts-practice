@@ -1,6 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
-import s from './Todolist.module.css'
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import IconButton from '@mui/material/IconButton';
@@ -85,7 +84,7 @@ export function Todolist({
     }
 
     return <div>
-        <div className='title-btn-del-todo'>
+        <div className= 'todolist-title-container'>
             <h3>
                 <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
             </h3>
@@ -108,7 +107,7 @@ export function Todolist({
                                     changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
                                 }
                                 return (
-                                    <ListItem  key={t.id} className={t.isDone ? s.isDone : ''}>
+                                    <ListItem  key={t.id} className={t.isDone ? 'isDone' : ''}>
 
                                         <Checkbox
                                             checked={t.isDone}
