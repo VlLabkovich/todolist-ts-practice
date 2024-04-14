@@ -101,7 +101,7 @@ export function Todolist({
             {/*<ul>{mappedTasks}</ul>*/}
             {
                 tasks.length === 0 ?
-                    <span>Тасок нет</span>
+                    <span>No tasks</span>
                     :
                     <List>
                         {
@@ -138,7 +138,7 @@ export function Todolist({
             }
 
             <Box sx={filterButtonsContainerSx}>
-                <Button color={'warning'}
+                <Button color={'primary'}
                         variant={filter === 'all' ? 'outlined' : 'contained'}
                         onClick={() => {
                             onChangeFilter("all")
@@ -150,7 +150,8 @@ export function Todolist({
                             onChangeFilter("active")
                         }}>Active</Button>
 
-                <Button color={'success'} variant={filter === 'completed' ? 'outlined' : 'contained'}
+                <Button color={'primary'}
+                        variant={filter === 'completed' ? 'outlined' : 'contained'}
                         onClick={() => {
                             onChangeFilter("completed")
                         }}>Completed</Button>
