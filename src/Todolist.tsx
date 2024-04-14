@@ -12,7 +12,6 @@ import Box from '@mui/material/Box'
 import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
 
 
-
 export type TaskType = {
     id: string
     title: string
@@ -86,74 +85,76 @@ export function Todolist({
         updateTodolistTitle(todolistId, newTitle)
     }
 
-    return <div>
-        <div className='todolist-title-container'>
-            <h3>
-                <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
-            </h3>
-            <IconButton aria-label="delete" onClick={removeTodolistHandler} size={'large'}>
-                <DeleteIcon fontSize="inherit"/>
-            </IconButton>
-        </div>
+    return (
         <div>
-            <AddItemForm addItem={addItemHandler}/>
-        </div>
-        {/*<ul>{mappedTasks}</ul>*/}
-        {
-            tasks.length === 0 ?
-                <span>Тасок нет</span>
-                :
-                <List>
-                    {
-                        tasks.map(t => {
-                                const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                                    changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+            <div className='todolist-title-container'>
+                <h3>
+                    <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
+                </h3>
+                <IconButton aria-label="delete" onClick={removeTodolistHandler} size={'large'}>
+                    <DeleteIcon fontSize="inherit"/>
+                </IconButton>
+            </div>
+            <div>
+                <AddItemForm addItem={addItemHandler}/>
+            </div>
+            {/*<ul>{mappedTasks}</ul>*/}
+            {
+                tasks.length === 0 ?
+                    <span>Тасок нет</span>
+                    :
+                    <List>
+                        {
+                            tasks.map(t => {
+                                    const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                                        changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+                                    }
+                                    return (
+                                        <ListItem key={t.id}
+                                                  sx={getListItemSx(t.isDone)}
+                                        >
+                                            <div>
+                                                <Checkbox
+                                                    checked={t.isDone}
+                                                    onChange={changeStatusHandler}
+                                                />
+                                                <EditableSpan oldTitle={t.title}
+                                                              updateTitle={(newTitle: string) => {
+                                                                  updateTaskTitle(newTitle, todolistId, t.id)
+                                                              }}/>
+                                            </div>
+
+                                            <IconButton aria-label="delete" onClick={() => {
+                                                removeTask(t.id, todolistId)
+                                            }} size="medium">
+                                                <DeleteIcon fontSize="inherit"/>
+                                            </IconButton>
+                                        </ListItem>
+                                    )
                                 }
-                                return (
-                                    <ListItem key={t.id}
-                                              sx={getListItemSx(t.isDone) }
-                                              >
-                                        <div>
-                                            <Checkbox
-                                                checked={t.isDone}
-                                                onChange={changeStatusHandler}
-                                            />
-                                            <EditableSpan oldTitle={t.title}
-                                                          updateTitle={(newTitle: string) => {
-                                                              updateTaskTitle(newTitle, todolistId, t.id)
-                                                          }}/>
-                                        </div>
+                            )
+                        }
+                    </List>
+            }
 
-                                        <IconButton aria-label="delete" onClick={() => {
-                                            removeTask(t.id, todolistId)
-                                        }} size="medium">
-                                            <DeleteIcon fontSize="inherit"/>
-                                        </IconButton>
-                                    </ListItem>
-                                )
-                            }
-                        )
-                    }
-                </List>
-        }
+            <Box sx={filterButtonsContainerSx}>
+                <Button color={'warning'}
+                        variant={filter === 'all' ? 'outlined' : 'contained'}
+                        onClick={() => {
+                            onChangeFilter("all")
+                        }}>All</Button>
 
-        <Box sx={filterButtonsContainerSx}>
-            <Button color={'error'}
-                    variant={filter === 'all' ? 'outlined' : 'contained'}
-                    onClick={() => {
-                        onChangeFilter("all")
-                    }}>All</Button>
+                <Button color={'primary'}
+                        variant={filter === 'active' ? 'outlined' : 'contained'}
+                        onClick={() => {
+                            onChangeFilter("active")
+                        }}>Active</Button>
 
-            <Button color={'primary'}
-                    variant={filter === 'active' ? 'outlined' : 'contained'}
-                    onClick={() => {
-                        onChangeFilter("active")
-                    }}>Active</Button>
-
-            <Button color={'success'} variant={filter === 'completed' ? 'outlined' : 'contained'}
-                    onClick={() => {
-                        onChangeFilter("completed")
-                    }}>Completed</Button>
-        </Box>
-    </div>
+                <Button color={'success'} variant={filter === 'completed' ? 'outlined' : 'contained'}
+                        onClick={() => {
+                            onChangeFilter("completed")
+                        }}>Completed</Button>
+            </Box>
+        </div>
+    )
 }

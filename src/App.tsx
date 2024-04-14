@@ -7,7 +7,6 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Unstable_Grid2'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import Paper from '@mui/material/Paper';
@@ -32,7 +31,7 @@ function App() {
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>([
         {id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'active'}
+        {id: todolistID2, title: 'What to buy', filter: 'all'}
     ])
 
     let [tasks, setTasks] = useState<TasksStateType>({
@@ -119,10 +118,9 @@ function App() {
                 </Toolbar>
             </AppBar>
 
-            <Container fixed>
+            <Container fixed >
                 <Grid container
-                      sx={{marginBottom: '30px'}}
-                >
+                      sx={{marginBottom: '30px'}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={4}>
