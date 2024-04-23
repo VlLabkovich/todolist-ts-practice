@@ -14,7 +14,7 @@ test('correct todolist should be removed', () => {
     ]
 
     const action = {
-        type: "REMOVE-TODOLIST",
+        type: 'REMOVE-TODOLIST',
         payload: {
             id: todolistID1
         }
@@ -37,7 +37,7 @@ test('correct todolist should be added', () => {
     ]
 
     const action = {
-        type: "ADD_TODOLIST",
+        type: 'ADD-TODOLIST',
         payload: {
             title: 'New todolist'
         }
@@ -47,4 +47,28 @@ test('correct todolist should be added', () => {
 
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe(action.payload.title)
+})
+
+test('correct todolist should change its name', () => {
+
+    let todolistID1 = v1()
+    let todolistID2 = v1()
+
+    const startState: TodolistType[] = [
+        {id: todolistID1, title: 'What to learn ?', filter: 'all'},
+        {id: todolistID2, title: 'What to buy ?', filter: 'all'}
+    ]
+
+    const action = {
+        type: 'CHANGE-TITLE-TODOLIST',
+        payload: {
+            id: todolistID2,
+            title: 'New todolist'
+        }
+    }
+
+    const endState = todolistReducer(startState, action)
+
+    expect(endState[0].title).toBe('What to learn ?')
+    expect(endState[1].title).toBe(action.payload.title)
 })
