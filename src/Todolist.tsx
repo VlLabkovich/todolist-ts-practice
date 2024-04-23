@@ -28,8 +28,8 @@ type PropsType = {
     changeTaskStatus: (taskId: string, newIsDone: boolean, todolistId: string) => void
     filter: string
     removeTodolist: (todolistId: string) => void
-    updateTaskTitle: (newTitle: string, todolistId: string, taskId: string) => void
-    updateTodolistTitle: (todolistId: string, newTitle: string) => void
+    updateTaskTitle: (newTaskTitle: string, todolistId: string, taskId: string) => void
+    updateTodolistTitle: (todolistId: string, newTodolistTitle: string) => void
 }
 
 export function Todolist({
@@ -77,12 +77,12 @@ export function Todolist({
         removeTodolist(todolistId)
     }
 
-    const addItemHandler = (itemTitle: string) => {
-        addTask(itemTitle, todolistId)
+    const addItemHandler = (taskTitle: string) => {
+        addTask(taskTitle, todolistId)
     }
 
-    const updateTodolistHandler = (newTitle: string) => {
-        updateTodolistTitle(todolistId, newTitle)
+    const updateTodolistHandler = (newTodolistTitle: string) => {
+        updateTodolistTitle(todolistId, newTodolistTitle)
     }
 
     return (
@@ -119,8 +119,8 @@ export function Todolist({
                                                     onChange={changeStatusHandler}
                                                 />
                                                 <EditableSpan oldTitle={t.title}
-                                                              updateTitle={(newTitle: string) => {
-                                                                  updateTaskTitle(newTitle, todolistId, t.id)
+                                                              updateTitle={(newTaskTitle: string) => {
+                                                                  updateTaskTitle(newTaskTitle, todolistId, t.id)
                                                               }}/>
                                             </div>
 

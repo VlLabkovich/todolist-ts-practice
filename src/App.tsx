@@ -77,8 +77,8 @@ function App() {
         setTodolists(todolists.map(el => el.id === todolistId ? {...el, filter: value} : el))
     }
 
-    const addTaskHandler = (title: string, todolistId: string) => {
-        let newTask = {id: v1(), title, isDone: false}
+    const addTaskHandler = (taskTitle: string, todolistId: string) => {
+        let newTask = {id: v1(), title: taskTitle, isDone: false}
         setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
     }
 
@@ -99,23 +99,23 @@ function App() {
         setTasks({...tasks})
     }
 
-    const addTodolist = (taskTitle: string) => {
+    const addTodolist = (todolistTitle: string) => {
         const todolistId = v1()
-        const newTodolist: TodolistType = {id: todolistId, title: taskTitle, filter: 'all'}
+        const newTodolist: TodolistType = {id: todolistId, title: todolistTitle, filter: 'all'}
         setTodolists([newTodolist, ...todolists])
         setTasks({...tasks, [todolistId]: []})
     }
 
-    const updateTaskHandler = (newTitle: string, todolistId: string, taskId: string) => {
+    const updateTaskHandler = (newTaskTitle: string, todolistId: string, taskId: string) => {
         setTasks({
             ...tasks,
             [todolistId]:
-                tasks[todolistId].map(el => el.id === taskId ? {...el, title: newTitle} : el)
+                tasks[todolistId].map(el => el.id === taskId ? {...el, title: newTaskTitle} : el)
         })
     }
 
-    const updateTodolistHandler = (todolistId: string, newTitle: string) => {
-        setTodolists(todolists.map(el => el.id === todolistId ? {...el, title: newTitle} : el))
+    const updateTodolistHandler = (todolistId: string, newTodolistTitle: string) => {
+        setTodolists(todolists.map(el => el.id === todolistId ? {...el, title: newTodolistTitle} : el))
     }
 
     const changeModeHandler = () => {
