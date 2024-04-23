@@ -20,7 +20,9 @@ export const todolistReducer = (state: TodolistType[] = initialState , action: a
             return state.filter(el => el.id !== action.payload.id)
         }
         case 'ADD_TODOLIST': {
-            return state
+            const todolistId = v1()
+            const newTodolist: TodolistType = {id: todolistId, title: action.payload.title, filter: 'all'}
+            return [newTodolist, ...state]
         }
         default: return state
     }
