@@ -45,7 +45,7 @@ const initialState: TodolistType[] = [
     {id: todolistID2, title: 'What to buy ?', filter: 'all'}
 ]
 // 1 Создание todolistReducer
-export const todolistReducer = (state: TodolistType[] = initialState, action: ActionsType) => {
+export const todolistReducer = (state: TodolistType[] = initialState, action: ActionsType) : TodolistType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(el => el.id !== action.payload.id)
