@@ -1,6 +1,6 @@
 import React, {useReducer, useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
+import {TaskType, Todolist} from './components/Todolist';
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import Container from '@mui/material/Container'
@@ -19,8 +19,8 @@ import {
     changeFilterTodolistAC,
     changeTitleTodolistAC,
     removeTodolistAC,
-    todolistReducer
-} from "./model/todolist-reducer";
+    todolistsReducer
+} from "./model/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./model/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -37,7 +37,7 @@ export type TasksStateType = {
 
 type ThemeMode = 'dark' | 'light'
 
-function AppWithReducers() {
+function AppWithRedux() {
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
@@ -53,7 +53,7 @@ function AppWithReducers() {
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, dispatchToTodolistsReducer] = useReducer(todolistReducer, [
+    let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
         {id: todolistID1, title: 'What to learn ?', filter: 'all'},
         {id: todolistID2, title: 'What to buy ?', filter: 'all'}
     ])
@@ -177,4 +177,4 @@ function AppWithReducers() {
     )
 }
 
-export default AppWithReducers;
+export default AppWithRedux;
