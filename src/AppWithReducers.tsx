@@ -37,7 +37,7 @@ export type TasksStateType = {
 
 type ThemeMode = 'dark' | 'light'
 
-function App() {
+function AppWithReducers() {
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
@@ -177,4 +177,4 @@ function App() {
     )
 }
 
-export default App;
+export default AppWithReducers;
