@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './components/Todolist';
-import {AddItemForm} from "./components/AddItemForm";
+import {TaskType, Todolist} from '../components/Todolist';
+import {AddItemForm} from "../components/AddItemForm";
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Unstable_Grid2'
 import AppBar from '@mui/material/AppBar'
@@ -9,7 +9,7 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import Paper from '@mui/material/Paper';
-import {MenuButton} from "./components/MenuButton";
+import {MenuButton} from "../components/MenuButton";
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -18,10 +18,10 @@ import {
     changeFilterTodolistAC,
     changeTitleTodolistAC,
     removeTodolistAC,
-} from "./model/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./model/tasks-reducer";
+} from "../model/todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "./app/store";
+import {RootState} from "./store";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -59,7 +59,7 @@ type ThemeMode = 'dark' | 'light'
 //     ],
 // })
 
-function AppWithRedux() {
+function App() {
 
     const dispatch = useDispatch()
 
@@ -82,7 +82,7 @@ function AppWithRedux() {
     }
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
-        dispatch(changeFilterTodolistAC(todolistId, value))
+        dispatch(changeFilterTodolistAC({todolistId, value}))
     }
 
     const addTaskHandler = (taskTitle: string, todolistId: string) => {
@@ -106,7 +106,7 @@ function AppWithRedux() {
     }
 
     const updateTodolistHandler = (todolistId: string, newTodolistTitle: string) => {
-        dispatch(changeTitleTodolistAC(todolistId, newTodolistTitle))
+        dispatch(changeTitleTodolistAC({todolistId, newTodolistTitle}))
     }
 
     const changeModeHandler = () => {
@@ -179,4 +179,4 @@ function AppWithRedux() {
     )
 }
 
-export default AppWithRedux;
+export default App;

@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from "../AppWithRedux";
+import {FilterValuesType, TodolistType} from "../app/App";
 import {v1} from "uuid";
 
 // 2 Создание инициализационного стейта
@@ -20,12 +20,12 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
             return [newTodolist, ...state]
         }
         case 'CHANGE-TITLE-TODOLIST': {
-            return state.map(el => el.id === action.payload.todolistId2 ? {...el, title: action.payload.newTitle} : el)
+            return state.map(el => el.id === action.payload.todolistId ? {...el, title: action.payload.newTodolistTitle} : el)
         }
         case 'CHANGE-FILTER-TODOLIST': {
-            return state.map(el => el.id === action.payload.todolistId2 ? {
+            return state.map(el => el.id === action.payload.todolistId ? {
                 ...el,
-                filter: action.payload.newFilter
+                filter: action.payload.value
             } : el)
         }
         default:
@@ -42,12 +42,12 @@ export const addTodolistAC = (newTitle: string) => {
     return {type: 'ADD-TODOLIST', payload: {newTitle, todolistID: v1()}} as const
 }
 
-export const changeTitleTodolistAC = (todolistId2: string, newTitle: string) => {
-    return {type: 'CHANGE-TITLE-TODOLIST', payload: {todolistId2, newTitle}} as const
+export const changeTitleTodolistAC = (payload: {todolistId: string, newTodolistTitle: string}) => {
+    return {type: 'CHANGE-TITLE-TODOLIST', payload} as const
 }
 
-export const changeFilterTodolistAC = (todolistId2: string, newFilter: FilterValuesType) => {
-    return {type: 'CHANGE-FILTER-TODOLIST', payload: {todolistId2, newFilter}} as const
+export const changeFilterTodolistAC = (payload: {todolistId: string, value: FilterValuesType}) => {
+    return {type: 'CHANGE-FILTER-TODOLIST', payload} as const
 }
 
 // 3 Типизация actions
