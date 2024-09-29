@@ -1,7 +1,6 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
-import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -19,9 +18,8 @@ import {
     changeFilterTodolistAC,
     changeTitleTodolistAC,
     removeTodolistAC,
-    todolistsReducer
 } from "./model/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./model/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./app/store";
 
@@ -154,7 +152,7 @@ function AppWithRedux() {
                         }
 
                         return (
-                            <Grid>
+                            <Grid key={el.id}>
                                 <Paper elevation={2}
                                        sx={{padding: '0 20px 20px 20px'}}>
                                     <Todolist
