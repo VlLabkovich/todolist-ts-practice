@@ -37,28 +37,6 @@ export type TasksStateType = {
 
 type ThemeMode = 'dark' | 'light'
 
-//
-// let todolistID1 = v1()
-// let todolistID2 = v1()
-//
-// let [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
-//     {id: todolistID1, title: 'What to learn ?', filter: 'all'},
-//     {id: todolistID2, title: 'What to buy ?', filter: 'all'}
-// ])
-//
-// let [tasks, dispatchToTasksReducer] = useReducer(tasksReducer, {
-//     [todolistID1]: [
-//         {id: v1(), title: 'Html & Css', isDone: true},
-//         {id: v1(), title: 'JavaScript', isDone: false},
-//         {id: v1(), title: 'ReactJS', isDone: true}
-//     ],
-//     [todolistID2]: [
-//         {id: v1(), title: 'Milk', isDone: true},
-//         {id: v1(), title: 'Bread', isDone: false},
-//         {id: v1(), title: 'Potato', isDone: false}
-//     ],
-// })
-
 function App() {
 
     const dispatch = useDispatch()
