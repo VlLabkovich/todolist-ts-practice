@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import {TaskType, Todolist} from '../components/Todolist';
 import {AddItemForm} from "../components/AddItemForm";
@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import Paper from '@mui/material/Paper';
 import {MenuButton} from "../components/MenuButton";
-import {createTheme, ThemeProvider} from '@mui/material/styles'
+import {ThemeProvider} from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
 import {
@@ -22,6 +22,8 @@ import {
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
+import {changeThemeAC} from "./app-reducer";
+import {getTheme} from "../common/theme/theme";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -43,17 +45,13 @@ function App() {
 
     const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
     const tasks = useSelector<RootState, TasksStateType>(state => state.tasks)
+    const themeMode = useSelector<RootState, ThemeMode>(state => state.themeMode.themeMode)
 
-    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+    const theme = getTheme(themeMode)
 
-    const theme = createTheme({
-        palette: {
-            mode: themeMode === 'light' ? 'light' : 'dark',
-            primary: {
-                main: '#2d467c',
-            },
-        },
-    })
+    const changeModeHandler = () => {
+        dispatch(changeThemeAC(themeMode === 'light' ? 'dark' : 'light'))
+    }
 
     function removeTask(taskId: string, todolistId: string) {
         dispatch(removeTaskAC({todolistId, taskId}))
@@ -85,10 +83,6 @@ function App() {
 
     const updateTodolistHandler = (todolistId: string, newTodolistTitle: string) => {
         dispatch(changeTitleTodolistAC({todolistId, newTodolistTitle}))
-    }
-
-    const changeModeHandler = () => {
-        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
     }
 
     return (
