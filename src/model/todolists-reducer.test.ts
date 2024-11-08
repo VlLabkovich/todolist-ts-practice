@@ -1,11 +1,10 @@
 import {v1} from "uuid";
-import {TodolistType} from "../app/App";
 import {
     addTodolistAC,
     changeFilterTodolistAC,
     changeTitleTodolistAC,
     removeTodolistAC,
-    todolistsReducer
+    todolistsReducer, TodolistType
 } from "./todolists-reducer";
 
 let todolistID1 = v1()
@@ -43,7 +42,7 @@ test('correct todolist should change its name', () => {
                 todolistId: todolistID2,
                 newTodolistTitle: newTitle
             }
-            ))
+        ))
     expect(endState[0].title).toBe('What to learn ?')
     expect(endState[1].title).toBe(newTitle)
 })
@@ -56,7 +55,7 @@ test('correct filter of todolist should be changed', () => {
                 todolistId: todolistID2,
                 value: newFilter
             }
-            ))
+        ))
     expect(endState[0].filter).toBe('all')
     expect(endState[1].filter).toBe(newFilter)
 })
