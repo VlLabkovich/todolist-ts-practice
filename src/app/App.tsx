@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "./store";
 import {getTheme} from "../common/theme/theme";
 import {Header} from "../Header";
-import Main from "../Main";
+import {Main} from "../Main";
 
 type ThemeMode = 'dark' | 'light'
 
