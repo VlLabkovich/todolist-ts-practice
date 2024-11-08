@@ -5,8 +5,7 @@ import {Todolist} from "./components/Todolist";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./app/store";
 import {
-    changeFilterTodolistAC, changeTitleTodolistAC,
-    FilterValuesType,
+    changeTitleTodolistAC,
     removeTodolistAC,
     TodolistType
 } from "./model/todolists-reducer";
@@ -20,10 +19,6 @@ export const Todolists = () => {
 
     function removeTask(taskId: string, todolistId: string) {
         dispatch(removeTaskAC({todolistId, taskId}))
-    }
-
-    function changeFilter(value: FilterValuesType, todolistId: string) {
-        dispatch(changeFilterTodolistAC({todolistId, value}))
     }
 
     const addTaskHandler = (taskTitle: string, todolistId: string) => {
@@ -68,14 +63,11 @@ export const Todolists = () => {
                                sx={{padding: '0 20px 20px 20px'}}>
                             <Todolist
                                 key={el.id}
-                                todolistId={el.id}
-                                title={el.title}
+                                todolist={el}
                                 tasks={tasksForTodolist}
                                 removeTask={removeTask}
-                                changeFilter={changeFilter}
                                 addTask={addTaskHandler}
                                 changeTaskStatus={changeTasksStatus}
-                                filter={el.filter}
                                 removeTodolist={removeTodolist}
                                 updateTaskTitle={updateTaskHandler}
                                 updateTodolistTitle={updateTodolistHandler}

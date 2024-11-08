@@ -32,9 +32,9 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
             } : el)
         }
         case 'CHANGE-FILTER-TODOLIST': {
-            return state.map(el => el.id === action.payload.todolistId ? {
+            return state.map(el => el.id === action.payload.id ? {
                 ...el,
-                filter: action.payload.value
+                filter: action.payload.filter
             } : el)
         }
         default:
@@ -55,7 +55,7 @@ export const changeTitleTodolistAC = (payload: { todolistId: string, newTodolist
     return {type: 'CHANGE-TITLE-TODOLIST', payload} as const
 }
 
-export const changeFilterTodolistAC = (payload: { todolistId: string, value: FilterValuesType }) => {
+export const changeFilterTodolistAC = (payload: { id: string, filter: FilterValuesType }) => {
     return {type: 'CHANGE-FILTER-TODOLIST', payload} as const
 }
 

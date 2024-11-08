@@ -3,34 +3,27 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Box from '@mui/material/Box'
-import {filterButtonsContainerSx, getListItemSx} from "../Todolist.styles";
+import {getListItemSx} from "../Todolist.styles";
 import {TaskType} from "../model/tasks-reducer";
-import {FilterValuesType} from "../model/todolists-reducer";
+import {TodolistType} from "../model/todolists-reducer";
+import {FilterTasksButtons} from "../FilterTasksButtons";
 
 type PropsType = {
-    todolistId: string
-    title: string
+    todolist: TodolistType
     tasks: Array<TaskType>
     removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (taskTitle: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, newIsDone: boolean, todolistId: string) => void
-    filter: string
     removeTodolist: (todolistId: string) => void
     updateTaskTitle: (newTaskTitle: string, todolistId: string, taskId: string) => void
     updateTodolistTitle: (todolistId: string, newTodolistTitle: string) => void
 }
 
 export function Todolist({
-                             todolistId,
-                             title,
-                             filter,
-                             changeFilter,
+                             todolist,
                              tasks,
                              changeTaskStatus,
                              removeTask,
@@ -40,27 +33,23 @@ export function Todolist({
                              updateTodolistTitle
                          }: PropsType) {
 
-    const onChangeFilter = (value: FilterValuesType) => {
-        changeFilter(value, todolistId)
-    }
-
     const removeTodolistHandler = () => {
-        removeTodolist(todolistId)
+        removeTodolist(todolist.id)
     }
 
     const addItemHandler = (taskTitle: string) => {
-        addTask(taskTitle, todolistId)
+        addTask(taskTitle, todolist.id)
     }
 
     const updateTodolistHandler = (newTodolistTitle: string) => {
-        updateTodolistTitle(todolistId, newTodolistTitle)
+        updateTodolistTitle(todolist.id, newTodolistTitle)
     }
 
     return (
         <div>
             <div className='todolist-title-container'>
                 <h3>
-                    <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
+                    <EditableSpan oldTitle={todolist.title} updateTitle={updateTodolistHandler}/>
                 </h3>
                 <IconButton aria-label="delete" onClick={removeTodolistHandler} size={'large'}>
                     <DeleteIcon fontSize="inherit"/>
@@ -77,7 +66,7 @@ export function Todolist({
                         {
                             tasks.map(t => {
                                     const changeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                                        changeTaskStatus(t.id, event.currentTarget.checked, todolistId)
+                                        changeTaskStatus(t.id, event.currentTarget.checked, todolist.id)
                                     }
                                     return (
                                         <ListItem key={t.id}
@@ -90,12 +79,12 @@ export function Todolist({
                                                 />
                                                 <EditableSpan oldTitle={t.title}
                                                               updateTitle={(newTaskTitle: string) => {
-                                                                  updateTaskTitle(newTaskTitle, todolistId, t.id)
+                                                                  updateTaskTitle(newTaskTitle, todolist.id, t.id)
                                                               }}/>
                                             </div>
 
                                             <IconButton aria-label="delete" onClick={() => {
-                                                removeTask(t.id, todolistId)
+                                                removeTask(t.id, todolist.id)
                                             }} size="medium">
                                                 <DeleteIcon fontSize="inherit"/>
                                             </IconButton>
@@ -107,25 +96,7 @@ export function Todolist({
                     </List>
             }
 
-            <Box sx={filterButtonsContainerSx}>
-                <Button color={'primary'}
-                        variant={filter === 'all' ? 'outlined' : 'contained'}
-                        onClick={() => {
-                            onChangeFilter("all")
-                        }}>All</Button>
-
-                <Button color={'primary'}
-                        variant={filter === 'active' ? 'outlined' : 'contained'}
-                        onClick={() => {
-                            onChangeFilter("active")
-                        }}>Active</Button>
-
-                <Button color={'primary'}
-                        variant={filter === 'completed' ? 'outlined' : 'contained'}
-                        onClick={() => {
-                            onChangeFilter("completed")
-                        }}>Completed</Button>
-            </Box>
+            <FilterTasksButtons todolist={todolist} />
         </div>
     )
 }
