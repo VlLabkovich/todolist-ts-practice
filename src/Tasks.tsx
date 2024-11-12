@@ -11,11 +11,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {TodolistType} from "./model/todolists-reducer";
 import {RootState} from "./app/store";
 
-type PropsType = {
+type Props = {
     todolist: TodolistType,
 }
 
-export const Tasks = ({todolist}: PropsType) => {
+export const Tasks = ({todolist}: Props) => {
 
     const dispatch = useDispatch()
 

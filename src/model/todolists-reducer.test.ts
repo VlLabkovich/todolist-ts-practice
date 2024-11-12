@@ -39,7 +39,7 @@ test('correct todolist should change its name', () => {
     const endState = todolistsReducer(startState,
         changeTitleTodolistAC(
             {
-                todolistId: todolistID2,
+                id: todolistID2,
                 newTodolistTitle: newTitle
             }
         ))
