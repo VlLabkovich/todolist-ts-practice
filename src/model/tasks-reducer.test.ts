@@ -52,7 +52,7 @@ test('correct task should be added to correct array', () => {
         addTaskAC(
             {
                 taskTitle: 'juce',
-                todolistId: 'todolistID2'
+                id: 'todolistID2'
             }))
 
     expect(endState['todolistID1'].length).toBe(3)

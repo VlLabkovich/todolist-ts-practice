@@ -2,7 +2,7 @@ import React from 'react';
 import {AddItemForm} from "./components/AddItemForm";
 import Grid from "@mui/material/Unstable_Grid2";
 import Container from "@mui/material/Container";
-import Todolists from "./Todolists";
+import {Todolists} from "./Todolists";
 import {addTodolistAC} from "./model/todolists-reducer";
 import {useDispatch} from "react-redux";
 

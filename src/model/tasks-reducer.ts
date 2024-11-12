@@ -28,7 +28,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const newTask = {id: newTaskID, title: action.payload.taskTitle, isDone: false}
             return {
                 ...state,
-                [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]]
+                [action.payload.id]: [newTask, ...state[action.payload.id]]
             }
         }
 
@@ -74,7 +74,7 @@ export const removeTaskAC = (payload: { todolistId: string, taskId: string }) =>
     return {type: 'REMOVE-TASK', payload} as const
 }
 
-export const addTaskAC = (payload: { taskTitle: string, todolistId: string }) => {
+export const addTaskAC = (payload: { taskTitle: string, id: string }) => {
     return {type: 'ADD-TASK', payload} as const
 }
 

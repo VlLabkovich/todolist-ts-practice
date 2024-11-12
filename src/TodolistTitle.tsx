@@ -12,9 +12,9 @@ type Props = {
 
 export const TodolistTitle = ({todolist}: Props) => {
 
-    const {title, id} = todolist
+    const {title, id} = todolist;
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const removeTodolistHandler = () => {
         dispatch(removeTodolistAC(id))
