@@ -30,7 +30,7 @@ test('correct task should be deleted from correct array', () => {
         startState,
         removeTaskAC({
             taskId: '2',
-            todolistId: 'todolistID2',
+            id: 'todolistID2',
         })
     )
 
@@ -68,7 +68,7 @@ test('status of specified task should be changed', () => {
         changeTaskStatusAC({
             taskId: '2',
             newIsDone: false,
-            todolistId: 'todolistID2',
+            id: 'todolistID2',
         })
     )
 
@@ -82,7 +82,7 @@ test('title of specified task should be changed', () => {
         changeTaskTitleAC({
             taskId: '2',
             newTaskTitle: 'newTitle',
-            todolistId: 'todolistID2',
+            id: 'todolistID2',
         })
     )
 

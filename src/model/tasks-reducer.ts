@@ -18,8 +18,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case "REMOVE-TASK": {
             return {
                 ...state,
-                [action.payload.todolistId]:
-                    state[action.payload.todolistId].filter(t => t.id !== action.payload.taskId)
+                [action.payload.id]:
+                    state[action.payload.id].filter(t => t.id !== action.payload.taskId)
             }
         }
 
@@ -36,7 +36,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 
             return {
                 ...state,
-                [action.payload.todolistId]: state[action.payload.todolistId].map(t =>
+                [action.payload.id]: state[action.payload.id].map(t =>
                     t.id === action.payload.taskId ? {...t, isDone: action.payload.newIsDone} : t)
             }
         }
@@ -45,8 +45,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 
             return {
                 ...state,
-                [action.payload.todolistId]:
-                    state[action.payload.todolistId].map(
+                [action.payload.id]:
+                    state[action.payload.id].map(
                         t => t.id === action.payload.taskId ?
                             {...t, title: action.payload.newTaskTitle} : t
                     )
@@ -70,7 +70,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 }
 
 // Action creators
-export const removeTaskAC = (payload: { todolistId: string, taskId: string }) => {
+export const removeTaskAC = (payload: { id: string, taskId: string }) => {
     return {type: 'REMOVE-TASK', payload} as const
 }
 
@@ -81,7 +81,7 @@ export const addTaskAC = (payload: { taskTitle: string, id: string }) => {
 export const changeTaskStatusAC = (payload: {
     taskId: string,
     newIsDone: boolean,
-    todolistId: string
+    id: string
 }) => {
     return {type: 'CHANGE-TASK-STATUS', payload} as const
 }
@@ -89,7 +89,7 @@ export const changeTaskStatusAC = (payload: {
 export const changeTaskTitleAC = (payload: {
     taskId: string,
     newTaskTitle: string,
-    todolistId: string
+    id: string
 }) => {
     return {type: 'CHANGE-TASK-TITLE', payload} as const
 }
