@@ -5,15 +5,16 @@ import {MenuButton} from "../MenuButton/MenuButton";
 import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import React from "react";
-import {changeThemeAC, ThemeMode} from "../../../app/app-reducer";
+import {changeThemeAC} from "../../../app/app-reducer";
 import {getTheme} from "../../theme/theme";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../app/store";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {useAppSelector} from "../../hooks/useAppSelector";
 
 export const Header = () => {
-    const themeMode = useSelector<RootState, ThemeMode>(state => state.themeMode.themeMode)
 
-    const dispatch = useDispatch()
+    const themeMode = useAppSelector(state => state.app.themeMode)
+
+    const dispatch = useAppDispatch()
 
     const theme = getTheme(themeMode)
 

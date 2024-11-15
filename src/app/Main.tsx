@@ -4,10 +4,11 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Container from "@mui/material/Container";
 import {Todolists} from "../features/todolists/ui/Todolists/Todolists";
 import {addTodolistAC} from "../features/todolists/model/todolists-reducer";
-import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../common/hooks/useAppDispatch";
+
 
 export const Main = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const addTodolist = (todolistTitle: string) => {
         dispatch(addTodolistAC(todolistTitle))
     }

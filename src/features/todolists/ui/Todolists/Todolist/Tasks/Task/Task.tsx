@@ -6,8 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {TodolistType} from "../../../../../model/todolists-reducer";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType} from "../../../../../model/tasks-reducer";
-import {useDispatch} from "react-redux";
 import {getListItemSx} from "./Task.styles";
+import {useAppDispatch} from "../../../../../../../common/hooks/useAppDispatch";
 
 type Props = {
     todolist: TodolistType,
@@ -18,7 +18,7 @@ export const Task = ({todolist, task}: Props) => {
 
     const {id} = todolist
     let taskId = task.id
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
         let newIsDone = event.currentTarget.checked
