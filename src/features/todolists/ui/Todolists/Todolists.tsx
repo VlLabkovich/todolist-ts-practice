@@ -3,10 +3,11 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
+import {selectTodolists} from "../../model/todolistsSelectors";
 
 export const Todolists = () => {
 
-    const todolists = useAppSelector(state => state.todolists)
+    const todolists = useAppSelector(selectTodolists)
 
     return (
         <>
