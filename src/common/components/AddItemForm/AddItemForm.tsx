@@ -4,10 +4,10 @@ import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
-type PropsAddItemForm = {
+type Props = {
     addItem: (itemTitle: string) => void
 };
-export const AddItemForm = ({addItem}: PropsAddItemForm) => {
+export const AddItemForm = ({addItem}: Props) => {
 
     let [error, setError] = useState<string | null>(null)
     let [itemTitle, setItemTitle] = useState('')
