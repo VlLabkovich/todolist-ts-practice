@@ -1,10 +1,10 @@
 import React from 'react';
-import {AddItemForm} from "./components/AddItemForm";
-import {TodolistType} from "./model/todolists-reducer";
-import {FilterTasksButtons} from "./FilterTasksButtons";
-import {Tasks} from "./Tasks";
-import {TodolistTitle} from "./TodolistTitle";
-import {addTaskAC} from "./model/tasks-reducer";
+import {AddItemForm} from "../../../../../common/components/AddItemForm/AddItemForm";
+import {TodolistType} from "../../../model/todolists-reducer";
+import {FilterTasksButtons} from "./FilterTasksButtons/FilterTasksButtons";
+import {Tasks} from "./Tasks/Tasks";
+import {TodolistTitle} from "./TodolistTitle/TodolistTitle";
+import {addTaskAC} from "../../../model/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 

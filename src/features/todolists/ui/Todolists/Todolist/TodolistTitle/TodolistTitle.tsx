@@ -1,9 +1,10 @@
 import React from 'react';
-import {changeTitleTodolistAC, removeTodolistAC, TodolistType} from "./model/todolists-reducer";
-import {EditableSpan} from "./components/EditableSpan";
+import {changeTitleTodolistAC, removeTodolistAC, TodolistType} from "../../../../model/todolists-reducer";
+import {EditableSpan} from "../../../../../../common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
+import s from "./TodolistTitle.module.css"
 
 
 type Props = {
@@ -26,7 +27,7 @@ export const TodolistTitle = ({todolist}: Props) => {
 
     return (
         <>
-            <div className='todolist-title-container'>
+            <div className={s.container}>
                 <h3>
                     <EditableSpan oldTitle={title} updateTitle={updateTodolistHandler}/>
                 </h3>
