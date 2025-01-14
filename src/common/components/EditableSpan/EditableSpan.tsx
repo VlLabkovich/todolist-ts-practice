@@ -40,8 +40,6 @@ export const EditableSpan = ({
 
             <TextField variant="standard"
                        label="Enter in task"
-                // multiline={true}
-                       // rows={2}
                        value={newTitle}
                        onChange={editEventTitle}
                        onBlur={editModeHandler}
