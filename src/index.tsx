@@ -4,7 +4,6 @@ import * as serviceWorker from "./serviceWorker"
 import { createRoot } from "react-dom/client"
 import { store } from "./app/store"
 import { Provider } from "react-redux"
-import { App } from "./app/App"
 import { AppHttpRequests } from "./app/AppHttpRequests"
 
 const container = document.getElementById("root") as HTMLElement
