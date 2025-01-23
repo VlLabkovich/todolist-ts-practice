@@ -1,8 +1,8 @@
+import {useAppSelector} from "common/hooks";
 import React from 'react';
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
-import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {selectTodolists} from "../../model/todolistsSelectors";
 
 export const Todolists = () => {
