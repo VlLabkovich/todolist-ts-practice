@@ -4,13 +4,13 @@ import ListItem from "@mui/material/ListItem"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { TodolistType } from "../../../../../model/todolists-reducer"
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../model/tasks-reducer"
+import type { DomainTodolist } from "../../../../../model/todolists-reducer"
 import { getListItemSx } from "./Task.styles"
 import { EditableSpan } from "common/components"
 
 type Props = {
-  todolist: TodolistType
+  todolist: DomainTodolist
   task: TaskType
 }
 

@@ -1,27 +1,29 @@
+import type { Dispatch } from "redux"
 import { v1 } from "uuid"
+import type { RootState } from "../../../app/store"
+import { todolistsApi } from "../api/todolistsApi"
+import type { Todolist } from "../api/todolistsApi.types"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-export type TodolistType = {
-  id: string
-  title: string
-  filter: FilterValuesType
-}
+export type DomainTodolist = Todolist & { filter: FilterValuesType }
+
 // 2 Создание инициализационного стейта
-const initialState: TodolistType[] = []
+const initialState: DomainTodolist[] = []
 
 // 1 Создание todolistReducer
-export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType): TodolistType[] => {
+export const todolistsReducer = (state: DomainTodolist[] = initialState, action: ActionsType): DomainTodolist[] => {
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter((el) => el.id !== action.payload.id)
     }
     case "ADD-TODOLIST": {
-      // const todolistId = v1()
-      const newTodolist: TodolistType = {
+      const newTodolist: DomainTodolist = {
         id: action.payload.todolistID,
         title: action.payload.newTitle,
         filter: "all",
+        addedDate: "",
+        order: 0,
       }
       return [newTodolist, ...state]
     }
@@ -45,6 +47,9 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
           : el,
       )
     }
+    case "SET-TODOLISTS": {
+      return action.todolists.map((tl) => ({ ...tl, filter: "all" }))
+    }
     default:
       return state
   }
@@ -67,11 +72,23 @@ export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValu
   return { type: "CHANGE-FILTER-TODOLIST", payload } as const
 }
 
+export const setTodolistsAC = (todolists: Todolist[]) => {
+  return { type: "SET-TODOLISTS", todolists } as const
+}
+
+// 5 Thunk
+export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootState) => {
+  todolistsApi.getTodolists().then((res) => {
+    dispatch(setTodolistsAC(res.data))
+  })
+}
+
 // 3 Типизация actions
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type ChangeTitleTodolistActionType = ReturnType<typeof changeTitleTodolistAC>
 export type ChangeFilterTodolistActionType = ReturnType<typeof changeFilterTodolistAC>
+export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 
 // 3.1 Объединение типизированных actions в один
 type ActionsType =
@@ -79,3 +96,4 @@ type ActionsType =
   | AddTodolistActionType
   | ChangeTitleTodolistActionType
   | ChangeFilterTodolistActionType
+  | SetTodolistsActionType

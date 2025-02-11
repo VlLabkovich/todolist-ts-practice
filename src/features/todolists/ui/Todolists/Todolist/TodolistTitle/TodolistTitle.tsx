@@ -1,13 +1,13 @@
 import { useAppDispatch } from "common/hooks"
 import React from "react"
-import { changeTitleTodolistAC, removeTodolistAC, TodolistType } from "../../../../model/todolists-reducer"
+import { changeTitleTodolistAC, type DomainTodolist, removeTodolistAC } from "../../../../model/todolists-reducer"
 import IconButton from "@mui/material/IconButton"
 import DeleteIcon from "@mui/icons-material/Delete"
 import s from "./TodolistTitle.module.css"
 import { EditableSpan } from "common/components"
 
 type Props = {
-  todolist: TodolistType
+  todolist: DomainTodolist
 }
 
 export const TodolistTitle = ({ todolist }: Props) => {
