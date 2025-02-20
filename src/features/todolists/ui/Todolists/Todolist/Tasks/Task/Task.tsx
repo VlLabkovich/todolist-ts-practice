@@ -7,7 +7,7 @@ import { useAppDispatch } from "common/hooks"
 import React, { type ChangeEvent } from "react"
 import type { DomainTask } from "../../../../../api/tasksApi.types"
 import { TaskStatus } from "../../../../../lib/enums"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "../../../../../model/tasks-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskTC } from "../../../../../model/tasks-reducer"
 import type { DomainTodolist } from "../../../../../model/todolists-reducer"
 import { getListItemSx } from "./Task.styles"
 
@@ -17,21 +17,21 @@ type Props = {
 }
 
 export const Task = ({ todolist, task }: Props) => {
-  const { id } = todolist
-  let taskId = task.id
+  const todolistId = todolist.id
+  const taskId = task.id
   const dispatch = useAppDispatch()
 
   const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
     let newIsDone = event.currentTarget.checked
-    dispatch(changeTaskStatusAC({ taskId, newIsDone, id }))
+    dispatch(changeTaskStatusAC({ taskId, newIsDone, todolistId }))
   }
 
   const changeTaskTitleHandler = (newTaskTitle: string) => {
-    dispatch(changeTaskTitleAC({ newTaskTitle, id, taskId }))
+    dispatch(changeTaskTitleAC({ newTaskTitle, todolistId, taskId }))
   }
 
   const removeTaskHandler = () => {
-    dispatch(removeTaskAC({ id, taskId }))
+    dispatch(removeTaskTC({ todolistId, taskId }))
   }
 
   return (

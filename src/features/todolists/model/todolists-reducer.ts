@@ -78,10 +78,13 @@ export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValu
 }
 
 // 5 Thunk
-export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
-  todolistsApi.getTodolists().then((res) => {
-    dispatch(setTodolistsAC(res.data))
-  })
+// Use height order components
+export const fetchTodolistsTC = () => {
+  return (dispatch: AppDispatch) => {
+    todolistsApi.getTodolists().then((res) => {
+      dispatch(setTodolistsAC(res.data))
+    })
+  }
 }
 
 // 3 Типизация actions

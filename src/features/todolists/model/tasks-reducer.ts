@@ -22,14 +22,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     case "REMOVE-TASK": {
       return {
         ...state,
-        [action.payload.id]: state[action.payload.id].filter((t) => t.id !== action.payload.taskId),
+        [action.payload.todolistId]: state[action.payload.todolistId].filter((t) => t.id !== action.payload.taskId),
       }
     }
 
     case "ADD-TASK": {
       const newTask: DomainTask = {
         title: action.payload.taskTitle,
-        todoListId: action.payload.id,
+        todoListId: action.payload.todolistId,
         startDate: "",
         priority: TaskPriority.Low,
         description: "",
@@ -41,14 +41,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       }
       return {
         ...state,
-        [action.payload.id]: [newTask, ...state[action.payload.id]],
+        [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]],
       }
     }
 
     case "CHANGE-TASK-STATUS": {
       return {
         ...state,
-        [action.payload.id]: state[action.payload.id].map((t) =>
+        [action.payload.todolistId]: state[action.payload.todolistId].map((t) =>
           t.id === action.payload.taskId ? { ...t, isDone: action.payload.newIsDone } : t,
         ),
       }
@@ -57,7 +57,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     case "CHANGE-TASK-TITLE": {
       return {
         ...state,
-        [action.payload.id]: state[action.payload.id].map((t) =>
+        [action.payload.todolistId]: state[action.payload.todolistId].map((t) =>
           t.id === action.payload.taskId ? { ...t, title: action.payload.newTaskTitle } : t,
         ),
       }
@@ -83,19 +83,19 @@ export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] })
   return { type: "SET-TASKS", payload } as const
 }
 
-export const removeTaskAC = (payload: { id: string; taskId: string }) => {
+export const removeTaskAC = (payload: { todolistId: string; taskId: string }) => {
   return { type: "REMOVE-TASK", payload } as const
 }
 
-export const addTaskAC = (payload: { taskTitle: string; id: string }) => {
+export const addTaskAC = (payload: { taskTitle: string; todolistId: string }) => {
   return { type: "ADD-TASK", payload } as const
 }
 
-export const changeTaskStatusAC = (payload: { taskId: string; newIsDone: boolean; id: string }) => {
+export const changeTaskStatusAC = (payload: { taskId: string; newIsDone: boolean; todolistId: string }) => {
   return { type: "CHANGE-TASK-STATUS", payload } as const
 }
 
-export const changeTaskTitleAC = (payload: { taskId: string; newTaskTitle: string; id: string }) => {
+export const changeTaskTitleAC = (payload: { taskId: string; newTaskTitle: string; todolistId: string }) => {
   return { type: "CHANGE-TASK-TITLE", payload } as const
 }
 
@@ -107,10 +107,21 @@ export const changeTaskTitleAC = (payload: { taskId: string; newTaskTitle: strin
 //   })
 // }
 
-export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
-  tasksApi.getTasks(todolistId).then((res) => {
-    dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
-  })
+// Use height order components
+export const fetchTasksTC = (todolistId: string) => {
+  return (dispatch: AppDispatch) => {
+    tasksApi.getTasks(todolistId).then((res) => {
+      dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
+    })
+  }
+}
+
+export const removeTaskTC = (arg: { todolistId: string; taskId: string }) => {
+  return (dispatch: AppDispatch) => {
+    tasksApi.deleteTask(arg).then((res) => {
+      dispatch(removeTaskAC(arg))
+    })
+  }
 }
 
 // Actions types
