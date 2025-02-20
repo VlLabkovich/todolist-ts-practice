@@ -5,23 +5,23 @@ import TextField from "@mui/material/TextField"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 
 type Props = {
-  addItem: (itemTitle: string) => void
+  addItem: (title: string) => void
 }
 export const AddItemForm = ({ addItem }: Props) => {
   let [error, setError] = useState<string | null>(null)
-  let [itemTitle, setItemTitle] = useState("")
+  let [title, setTitle] = useState("")
 
   const addItemHandler = () => {
-    if (itemTitle.trim() !== "") {
-      addItem(itemTitle.trim())
-      setItemTitle("")
+    if (title.trim() !== "") {
+      addItem(title.trim())
+      setTitle("")
     } else {
       setError("This is required")
     }
   }
 
   const onChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setItemTitle(event.currentTarget.value)
+    setTitle(event.currentTarget.value)
   }
 
   const onKeyDownEventHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ export const AddItemForm = ({ addItem }: Props) => {
         size={"small"}
         error={!!error}
         helperText={error}
-        value={itemTitle}
+        value={title}
         onChange={onChangeEventHandler}
         onKeyDown={onKeyDownEventHandler}
       />
