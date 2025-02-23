@@ -7,7 +7,7 @@ import { useAppDispatch } from "common/hooks"
 import React, { type ChangeEvent } from "react"
 import type { DomainTask } from "../../../../../api/tasksApi.types"
 import { TaskStatus } from "../../../../../lib/enums"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskTC } from "../../../../../model/tasks-reducer"
+import { changeTaskStatusTC, changeTaskTitleAC, removeTaskTC } from "../../../../../model/tasks-reducer"
 import type { DomainTodolist } from "../../../../../model/todolists-reducer"
 import { getListItemSx } from "./Task.styles"
 
@@ -22,8 +22,8 @@ export const Task = ({ todolist, task }: Props) => {
   const dispatch = useAppDispatch()
 
   const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    let newIsDone = event.currentTarget.checked
-    dispatch(changeTaskStatusAC({ taskId, newIsDone, todolistId }))
+    let status = event.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
+    dispatch(changeTaskStatusTC({ taskId, status, todolistId }))
   }
 
   const changeTaskTitleHandler = (newTaskTitle: string) => {
