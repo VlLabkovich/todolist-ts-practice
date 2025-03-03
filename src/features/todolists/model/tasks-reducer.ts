@@ -126,11 +126,14 @@ export const updateTaskTC =
       }
 
       tasksApi.updateTask({ taskId, model, todolistId }).then((res) => {
-        dispatch(updateTaskAC(arg))
+        if (res.data.resultCode === 0) {
+          dispatch(updateTaskAC(arg))
+          // console.log("Updated state:", getState().tasks)
+          // console.log("Updating with:", domainModel)
+        }
       })
     }
   }
-
 // Actions types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
