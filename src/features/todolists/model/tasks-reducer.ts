@@ -2,7 +2,6 @@ import type { Dispatch } from "redux"
 import type { AppDispatch, RootState } from "../../../app/store"
 import { tasksApi } from "../api/tasksApi"
 import type { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
-import { TaskPriority, TaskStatus } from "../lib/enums"
 import { addTodolistAC, removeTodolistAC } from "./todolists-reducer"
 
 const initialState: TasksStateType = {}
@@ -44,7 +43,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 
     case "ADD-TODOLIST": {
-      return { ...state, [action.payload.todolistID]: [] }
+      return { ...state, [action.payload.todolist.id]: [] }
     }
 
     case "REMOVE-TODOLIST": {
@@ -136,12 +135,7 @@ export const updateTaskTC =
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
 export type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
-
-// export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
-// export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
-
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
-
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 

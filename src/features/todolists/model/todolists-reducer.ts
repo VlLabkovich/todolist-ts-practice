@@ -1,3 +1,4 @@
+import type { Dispatch } from "redux"
 import { v1 } from "uuid"
 import type { AppDispatch } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
@@ -22,8 +23,8 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
     }
     case "ADD-TODOLIST": {
       const newTodolist: DomainTodolist = {
-        id: action.payload.todolistID,
-        title: action.payload.newTitle,
+        id: action.payload.todolist.id,
+        title: action.payload.todolist.title,
         filter: "all",
         addedDate: "",
         order: 0,
@@ -65,8 +66,8 @@ export const removeTodolistAC = (id: string) => {
   return { type: "REMOVE-TODOLIST", payload: { id } } as const
 }
 
-export const addTodolistAC = (newTitle: string) => {
-  return { type: "ADD-TODOLIST", payload: { newTitle, todolistID: v1() } } as const
+export const addTodolistAC = (todolist: DomainTodolist) => {
+  return { type: "ADD-TODOLIST", payload: { todolist } } as const
 }
 
 export const changeTitleTodolistAC = (payload: { id: string; newTodolistTitle: string }) => {
@@ -85,6 +86,13 @@ export const fetchTodolistsTC = () => {
       dispatch(setTodolistsAC(res.data))
     })
   }
+}
+
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsApi.createTodolist(title).then((res) => {
+    const todolist = res.data.data.item
+    dispatch(addTodolistAC(todolist))
+  })
 }
 
 // 3 Типизация actions
