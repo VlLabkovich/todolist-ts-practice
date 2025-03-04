@@ -35,7 +35,7 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
         el.id === action.payload.id
           ? {
               ...el,
-              title: action.payload.newTodolistTitle,
+              title: action.payload.title,
             }
           : el,
       )
@@ -69,7 +69,7 @@ export const addTodolistAC = (todolist: DomainTodolist) => {
   return { type: "ADD-TODOLIST", payload: { todolist } } as const
 }
 
-export const changeTitleTodolistAC = (payload: { id: string; newTodolistTitle: string }) => {
+export const updateTodolistTitleAC = (payload: { id: string; title: string }) => {
   return { type: "CHANGE-TITLE-TODOLIST", payload } as const
 }
 
@@ -100,10 +100,16 @@ export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
   })
 }
 
+export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: Dispatch) => {
+  todolistsApi.updateTodolist(arg).then((res) => {
+    dispatch(updateTodolistTitleAC(arg))
+  })
+}
+
 // 3 Типизация actions
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-export type ChangeTitleTodolistActionType = ReturnType<typeof changeTitleTodolistAC>
+export type UpdateTitleTodolistActionType = ReturnType<typeof updateTodolistTitleAC>
 export type ChangeFilterTodolistActionType = ReturnType<typeof changeFilterTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 
@@ -111,6 +117,6 @@ export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 type ActionsType =
   | RemoveTodolistActionType
   | AddTodolistActionType
-  | ChangeTitleTodolistActionType
+  | UpdateTitleTodolistActionType
   | ChangeFilterTodolistActionType
   | SetTodolistsActionType

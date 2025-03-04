@@ -4,12 +4,12 @@ import * as React from "react"
 
 type Props = {
   oldTitle: string
-  updateTitle: (newTitle: string) => void
+  updateTitle: (title: string) => void
 }
 export const EditableSpan = ({ oldTitle, updateTitle }: Props) => {
   const [edit, setEdit] = useState<boolean>(false)
 
-  const [newTitle, setNewTitle] = useState<string>(oldTitle)
+  const [title, setTitle] = useState<string>(oldTitle)
 
   const editModeHandler = () => {
     setEdit(!edit)
@@ -19,12 +19,12 @@ export const EditableSpan = ({ oldTitle, updateTitle }: Props) => {
   }
 
   const editEventTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(event.currentTarget.value)
+    setTitle(event.currentTarget.value)
   }
 
   const updateItemHandler = () => {
-    if (newTitle.trim() !== "") {
-      updateTitle(newTitle.trim())
+    if (title.trim() !== "") {
+      updateTitle(title.trim())
     }
   }
 
@@ -32,7 +32,7 @@ export const EditableSpan = ({ oldTitle, updateTitle }: Props) => {
     <TextField
       variant="standard"
       label="Enter in task"
-      value={newTitle}
+      value={title}
       onChange={editEventTitle}
       onBlur={editModeHandler}
       autoFocus={true}

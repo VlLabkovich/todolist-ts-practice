@@ -1,6 +1,6 @@
+import List from "@mui/material/List"
 import { useAppDispatch, useAppSelector } from "common/hooks"
 import React, { useEffect } from "react"
-import List from "@mui/material/List"
 import { TaskStatus } from "../../../../lib/enums"
 import { fetchTasksTC } from "../../../../model/tasks-reducer"
 import { selectTasks } from "../../../../model/tasksSelectors"
