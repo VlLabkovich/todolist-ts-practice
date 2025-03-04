@@ -126,11 +126,7 @@ export const updateTaskTC =
       }
 
       tasksApi.updateTask({ taskId, model, todolistId }).then((res) => {
-        if (res.data.resultCode === 0) {
-          dispatch(updateTaskAC(arg))
-          // console.log("Updated state:", getState().tasks)
-          // console.log("Updating with:", domainModel)
-        }
+        dispatch(updateTaskAC(arg))
       })
     }
   }
