@@ -30,7 +30,7 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
       }
       return [newTodolist, ...state]
     }
-    case "CHANGE-TITLE-TODOLIST": {
+    case "UPDATE-TITLE-TODOLIST": {
       return state.map((el) =>
         el.id === action.payload.id
           ? {
@@ -70,7 +70,7 @@ export const addTodolistAC = (todolist: DomainTodolist) => {
 }
 
 export const updateTodolistTitleAC = (payload: { id: string; title: string }) => {
-  return { type: "CHANGE-TITLE-TODOLIST", payload } as const
+  return { type: "UPDATE-TITLE-TODOLIST", payload } as const
 }
 
 export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValuesType }) => {
