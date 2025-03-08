@@ -1,4 +1,5 @@
 import type { Dispatch } from "redux"
+import { setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch, RootState } from "../../../app/store"
 import { tasksApi } from "../api/tasksApi"
 import type { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
@@ -83,26 +84,28 @@ export const updateTaskAC = (payload: { taskId: string; todolistId: string; doma
 // }
 
 // Use height order components
-export const fetchTasksTC = (todolistId: string) => {
-  return (dispatch: AppDispatch) => {
-    tasksApi.getTasks(todolistId).then((res) => {
-      dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
-    })
-  }
+export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
+  dispatch(setAppStatusAC("loading"))
+  tasksApi.getTasks(todolistId).then((res) => {
+    dispatch(setAppStatusAC("succeeded"))
+    dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
+  })
 }
-export const removeTaskTC = (arg: { todolistId: string; taskId: string }) => {
-  return (dispatch: AppDispatch) => {
-    tasksApi.deleteTask(arg).then((res) => {
-      dispatch(removeTaskAC(arg))
-    })
-  }
+
+export const removeTaskTC = (arg: { todolistId: string; taskId: string }) => (dispatch: AppDispatch) => {
+  dispatch(setAppStatusAC("loading"))
+  tasksApi.deleteTask(arg).then((res) => {
+    dispatch(setAppStatusAC("succeeded"))
+    dispatch(removeTaskAC(arg))
+  })
 }
-export const addTaskTC = (arg: { title: string; todolistId: string }) => {
-  return (dispatch: Dispatch) => {
-    tasksApi.createTask(arg).then((res) => {
-      dispatch(addTaskAC({ task: res.data.data.item }))
-    })
-  }
+
+export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
+  tasksApi.createTask(arg).then((res) => {
+    dispatch(setAppStatusAC("succeeded"))
+    dispatch(addTaskAC({ task: res.data.data.item }))
+  })
 }
 
 export const updateTaskTC =
@@ -125,7 +128,11 @@ export const updateTaskTC =
         ...domainModel,
       }
 
+      dispatch(setAppStatusAC("loading"))
+
       tasksApi.updateTask({ taskId, model, todolistId }).then((res) => {
+        dispatch(setAppStatusAC("succeeded"))
+
         dispatch(updateTaskAC(arg))
       })
     }
