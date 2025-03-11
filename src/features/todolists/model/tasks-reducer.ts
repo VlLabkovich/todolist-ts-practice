@@ -1,9 +1,12 @@
+import { handleServerAppError } from "common/utils/handleServerAppError"
 import type { Dispatch } from "redux"
 import { setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch, RootState } from "../../../app/store"
 import { tasksApi } from "../api/tasksApi"
 import type { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
+import { ResultCode } from "../lib/enums"
 import { addTodolistAC, removeTodolistAC } from "./todolists-reducer"
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 
 const initialState: TasksStateType = {}
 
@@ -86,26 +89,66 @@ export const updateTaskAC = (payload: { taskId: string; todolistId: string; doma
 // Use height order components
 export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
-  tasksApi.getTasks(todolistId).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
-  })
+  tasksApi
+    .getTasks(todolistId)
+    .then((res) => {
+      dispatch(setAppStatusAC("succeeded"))
+      dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
 
 export const removeTaskTC = (arg: { todolistId: string; taskId: string }) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
-  tasksApi.deleteTask(arg).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(removeTaskAC(arg))
-  })
+  tasksApi
+    .deleteTask(arg)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        dispatch(removeTaskAC(arg))
+      } else {
+        handleServerAppError(res.data, dispatch)
+      }
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
+
+// export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
+//   dispatch(setAppStatusAC("loading"))
+//   tasksApi.createTask(arg).then((res) => {
+//     if (res.data.resultCode === ResultCode.Success) {
+//       dispatch(addTaskAC({ task: res.data.data.item }))
+//       dispatch(setAppStatusAC("succeeded"))
+//     } else {
+//       if (res.data.messages.length) {
+//         dispatch(setAppErrorAC(res.data.messages[0]))
+//       } else {
+//         dispatch(setAppErrorAC("Some error occurred"))
+//       }
+//       dispatch(setAppStatusAC("failed"))
+//     }
+//   })
+// }
 
 export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
-  tasksApi.createTask(arg).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(addTaskAC({ task: res.data.data.item }))
-  })
+  tasksApi
+    .createTask(arg)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        dispatch(addTaskAC({ task: res.data.data.item }))
+      } else {
+        handleServerAppError(res.data, dispatch)
+      }
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
 
 export const updateTaskTC =
@@ -130,13 +173,22 @@ export const updateTaskTC =
 
       dispatch(setAppStatusAC("loading"))
 
-      tasksApi.updateTask({ taskId, model, todolistId }).then((res) => {
-        dispatch(setAppStatusAC("succeeded"))
-
-        dispatch(updateTaskAC(arg))
-      })
+      tasksApi
+        .updateTask({ taskId, model, todolistId })
+        .then((res) => {
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC("succeeded"))
+            dispatch(updateTaskAC(arg))
+          } else {
+            handleServerAppError(res.data, dispatch)
+          }
+        })
+        .catch((error) => {
+          handleServerNetworkError(error, dispatch)
+        })
     }
   }
+
 // Actions types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>

@@ -1,3 +1,4 @@
+import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 import { useAppSelector } from "common/hooks"
 import { getTheme } from "common/theme"
 import React from "react"
@@ -15,6 +16,7 @@ export const App = () => {
       <CssBaseline />
       <Header />
       <Main />
+      <ErrorSnackbar />
     </ThemeProvider>
   )
 }

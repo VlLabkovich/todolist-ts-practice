@@ -9,11 +9,12 @@ import { useAppDispatch, useAppSelector } from "common/hooks"
 import { getTheme } from "common/theme"
 import React from "react"
 import { changeThemeAC } from "../../../app/app-reducer"
+import { selectAppStatus } from "../../../app/appSelectors"
 
 export const Header = () => {
   const themeMode = useAppSelector((state) => state.app.themeMode)
 
-  const status = useAppSelector((state) => state.app.status)
+  const status = useAppSelector(selectAppStatus)
 
   const dispatch = useAppDispatch()
 

@@ -1,8 +1,12 @@
+import { handleServerAppError } from "common/utils/handleServerAppError"
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
+import { Simulate } from "react-dom/test-utils"
 import type { Dispatch } from "redux"
 import { setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
 import type { Todolist } from "../api/todolistsApi.types"
+import { ResultCode } from "../lib/enums"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -17,7 +21,6 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
     case "SET-TODOLISTS": {
       return action.todolists.map((tl) => ({ ...tl, filter: "all" }))
     }
-
     case "REMOVE-TODOLIST": {
       return state.filter((el) => el.id !== action.payload.id)
     }
@@ -65,15 +68,12 @@ export const setTodolistsAC = (todolists: Todolist[]) => {
 export const removeTodolistAC = (id: string) => {
   return { type: "REMOVE-TODOLIST", payload: { id } } as const
 }
-
 export const addTodolistAC = (todolist: DomainTodolist) => {
   return { type: "ADD-TODOLIST", payload: { todolist } } as const
 }
-
 export const updateTodolistTitleAC = (payload: { id: string; title: string }) => {
   return { type: "UPDATE-TITLE-TODOLIST", payload } as const
 }
-
 export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValuesType }) => {
   return { type: "CHANGE-FILTER-TODOLIST", payload } as const
 }
@@ -82,35 +82,64 @@ export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValu
 // Use height order components
 export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
-  todolistsApi.getTodolists().then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(setTodolistsAC(res.data))
-  })
+  todolistsApi
+    .getTodolists()
+    .then((res) => {
+      dispatch(setAppStatusAC("succeeded"))
+      dispatch(setTodolistsAC(res.data))
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
-
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
-  todolistsApi.createTodolist(title).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    const todolist = res.data.data.item
-    dispatch(addTodolistAC(todolist))
-  })
+  todolistsApi
+    .createTodolist(title)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        const todolist = res.data.data.item
+        dispatch(addTodolistAC(todolist))
+      } else {
+        handleServerAppError(res.data, dispatch)
+      }
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
-
 export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
-  todolistsApi.deleteTodolist(id).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(removeTodolistAC(id))
-  })
+  todolistsApi
+    .deleteTodolist(id)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(removeTodolistAC(id))
+        dispatch(setAppStatusAC("succeeded"))
+      } else {
+        handleServerAppError(res.data, dispatch)
+      }
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
-
 export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
-  todolistsApi.updateTodolist(arg).then((res) => {
-    dispatch(setAppStatusAC("succeeded"))
-    dispatch(updateTodolistTitleAC(arg))
-  })
+  todolistsApi
+    .updateTodolist(arg)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        dispatch(updateTodolistTitleAC(arg))
+      } else {
+        handleServerAppError(res.data, dispatch)
+      }
+    })
+    .catch((error) => {
+      handleServerNetworkError(error, dispatch)
+    })
 }
 
 // 3 Типизация actions
