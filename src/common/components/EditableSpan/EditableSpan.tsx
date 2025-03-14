@@ -5,8 +5,9 @@ import * as React from "react"
 type Props = {
   oldTitle: string
   updateTitle: (title: string) => void
+  disabled?: boolean
 }
-export const EditableSpan = ({ oldTitle, updateTitle }: Props) => {
+export const EditableSpan = ({ oldTitle, updateTitle, disabled }: Props) => {
   const [edit, setEdit] = useState<boolean>(false)
 
   const [title, setTitle] = useState<string>(oldTitle)
@@ -36,6 +37,7 @@ export const EditableSpan = ({ oldTitle, updateTitle }: Props) => {
       onChange={editEventTitle}
       onBlur={editModeHandler}
       autoFocus={true}
+      disabled={disabled}
     />
   ) : (
     <span onDoubleClick={editModeHandler}>{oldTitle}</span>

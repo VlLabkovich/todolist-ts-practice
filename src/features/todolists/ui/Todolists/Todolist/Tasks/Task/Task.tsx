@@ -19,6 +19,7 @@ type Props = {
 export const Task = ({ todolist, task }: Props) => {
   const todolistId = todolist.id
   const taskId = task.id
+  const todoEntity = todolist.entityStatus === "loading"
   const dispatch = useAppDispatch()
 
   const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,10 +38,14 @@ export const Task = ({ todolist, task }: Props) => {
   return (
     <ListItem key={task.id} sx={getListItemSx(task.status === TaskStatus.Completed)}>
       <div>
-        <Checkbox checked={task.status === TaskStatus.Completed} onChange={changeTaskStatusHandler} />
-        <EditableSpan oldTitle={task.title} updateTitle={changeTaskTitleHandler} />
+        <Checkbox
+          checked={task.status === TaskStatus.Completed}
+          onChange={changeTaskStatusHandler}
+          disabled={todoEntity}
+        />
+        <EditableSpan oldTitle={task.title} updateTitle={changeTaskTitleHandler} disabled={todoEntity} />
       </div>
-      <IconButton aria-label="delete" onClick={removeTaskHandler} size="medium">
+      <IconButton aria-label="delete" onClick={removeTaskHandler} size="medium" disabled={todoEntity}>
         <DeleteIcon fontSize="inherit" />
       </IconButton>
     </ListItem>

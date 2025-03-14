@@ -1,8 +1,7 @@
 import { handleServerAppError } from "common/utils/handleServerAppError"
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
-import { Simulate } from "react-dom/test-utils"
 import type { Dispatch } from "redux"
-import { setAppStatusAC } from "../../../app/app-reducer"
+import { type RequestStatus, setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
 import type { Todolist } from "../api/todolistsApi.types"
@@ -10,7 +9,10 @@ import { ResultCode } from "../lib/enums"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-export type DomainTodolist = Todolist & { filter: FilterValuesType }
+export type DomainTodolist = Todolist & {
+  filter: FilterValuesType
+  entityStatus: RequestStatus
+}
 
 // 2 Создание инициализационного стейта
 const initialState: DomainTodolist[] = []
@@ -19,7 +21,7 @@ const initialState: DomainTodolist[] = []
 export const todolistsReducer = (state: DomainTodolist[] = initialState, action: ActionsType): DomainTodolist[] => {
   switch (action.type) {
     case "SET-TODOLISTS": {
-      return action.todolists.map((tl) => ({ ...tl, filter: "all" }))
+      return action.todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
     }
     case "REMOVE-TODOLIST": {
       return state.filter((el) => el.id !== action.payload.id)
@@ -31,6 +33,7 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
         filter: "all",
         addedDate: "",
         order: 0,
+        entityStatus: "idle",
       }
       return [newTodolist, ...state]
     }
@@ -52,6 +55,11 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
               filter: action.payload.filter,
             }
           : el,
+      )
+    }
+    case "CHANGE-TODOLIST-ENTITY-STATUS": {
+      return state.map((el) =>
+        el.id === action.payload.id ? { ...el, entityStatus: action.payload.entityStatus } : el,
       )
     }
 
@@ -77,9 +85,13 @@ export const updateTodolistTitleAC = (payload: { id: string; title: string }) =>
 export const changeFilterTodolistAC = (payload: { id: string; filter: FilterValuesType }) => {
   return { type: "CHANGE-FILTER-TODOLIST", payload } as const
 }
+export const changeTodolistEntityStatusAC = (payload: { id: string; entityStatus: RequestStatus }) => {
+  return { type: "CHANGE-TODOLIST-ENTITY-STATUS", payload } as const
+}
 
 // 5 Thunk
 // Use height order components
+
 export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   todolistsApi
@@ -111,6 +123,8 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 }
 export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
+  dispatch(changeTodolistEntityStatusAC({ id, entityStatus: "loading" }))
+
   todolistsApi
     .deleteTodolist(id)
     .then((res) => {
@@ -123,6 +137,7 @@ export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
     })
     .catch((error) => {
       handleServerNetworkError(error, dispatch)
+      dispatch(changeTodolistEntityStatusAC({ id, entityStatus: "idle" }))
     })
 }
 export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: Dispatch) => {
@@ -143,16 +158,20 @@ export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (di
 }
 
 // 3 Типизация actions
+
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type UpdateTitleTodolistActionType = ReturnType<typeof updateTodolistTitleAC>
 export type ChangeFilterTodolistActionType = ReturnType<typeof changeFilterTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type ChangeTodolistEntityStatusType = ReturnType<typeof changeTodolistEntityStatusAC>
 
 // 3.1 Объединение типизированных actions в один
+
 type ActionsType =
   | RemoveTodolistActionType
   | AddTodolistActionType
   | UpdateTitleTodolistActionType
   | ChangeFilterTodolistActionType
   | SetTodolistsActionType
+  | ChangeTodolistEntityStatusType

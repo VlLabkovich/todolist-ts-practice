@@ -14,10 +14,8 @@ export const appReducer = (state: InitialState = initialState, action: ActionsTy
   switch (action.type) {
     case "CHANGE-THEME":
       return { ...state, themeMode: action.themeMode }
-
     case "SET_STATUS":
       return { ...state, status: action.payload.status }
-
     case "SET-ERROR":
       return { ...state, error: action.payload.error }
 
@@ -32,14 +30,12 @@ export const setAppStatusAC = (status: RequestStatus) => {
     payload: { status },
   } as const
 }
-
 export const setAppErrorAC = (error: ErrorStatus) => {
   return {
     type: "SET-ERROR",
     payload: { error },
   } as const
 }
-
 export const changeThemeAC = (themeMode: ThemeMode) => {
   return { type: "CHANGE-THEME", themeMode } as const
 }

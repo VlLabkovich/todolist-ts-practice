@@ -12,7 +12,7 @@ type Props = {
 
 export const Todolist = ({ todolist }: Props) => {
   const todolistId = todolist.id
-
+  const entityStatus = todolist.entityStatus === "loading"
   const dispatch = useAppDispatch()
 
   const addItemHandler = (title: string) => {
@@ -22,7 +22,7 @@ export const Todolist = ({ todolist }: Props) => {
   return (
     <div>
       <TodolistTitle todolist={todolist} />
-      <AddItemForm addItem={addItemHandler} />
+      <AddItemForm addItem={addItemHandler} disabled={entityStatus} />
       <Tasks todolist={todolist} />
       <FilterTasksButtons todolist={todolist} />
     </div>
