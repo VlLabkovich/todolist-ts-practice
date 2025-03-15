@@ -21,6 +21,7 @@ beforeEach(() => {
       addedDate: "",
       order: 0,
       filter: "all",
+      entityStatus: "idle",
     },
     {
       id: todolistId2,
@@ -28,6 +29,7 @@ beforeEach(() => {
       addedDate: "",
       order: 0,
       filter: "all",
+      entityStatus: "idle",
     },
   ]
 })
@@ -47,6 +49,7 @@ test("correct todolist should be added", () => {
     addedDate: "",
     order: 0,
     filter: "all",
+    entityStatus: "idle",
   })
 
   const endState = todolistsReducer(startState, action)
