@@ -1,13 +1,15 @@
 // // Дженериковая функция
-// // function declaration
-// function identity1<T>(arg: T): T {
-//   return arg
-// }
-//
-// // arrow function(expression)
-// const identity2 = <T>(arg: T): T => {
-//   return arg
-// }
+// function declaration
+function identity1<T>(arg: T): T {
+  return arg
+}
+
+// arrow function(expression)
+const identity2 = <T>(arg: T): T => {
+  return arg
+}
+
+export default identity1
 
 // // 1. Задача
 // // Реализация универсального фильтра в массиве
