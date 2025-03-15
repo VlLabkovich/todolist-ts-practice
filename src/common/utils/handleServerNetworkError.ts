@@ -1,7 +1,7 @@
-import type { Dispatch } from "redux"
 import { setAppErrorAC, setAppStatusAC } from "../../app/app-reducer"
+import type { AppDispatch } from "../../app/store"
 
-export const handleServerNetworkError = (error: { message: string }, dispatch: Dispatch) => {
+export const handleServerNetworkError = (error: { message: string }, dispatch: AppDispatch) => {
   dispatch(setAppErrorAC(error.message))
   dispatch(setAppStatusAC("failed"))
 }

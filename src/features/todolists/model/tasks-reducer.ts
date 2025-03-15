@@ -1,12 +1,11 @@
 import { handleServerAppError } from "common/utils/handleServerAppError"
-import type { Dispatch } from "redux"
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 import { setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch, RootState } from "../../../app/store"
 import { tasksApi } from "../api/tasksApi"
 import type { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
 import { ResultCode } from "../lib/enums"
 import { addTodolistAC, removeTodolistAC } from "./todolists-reducer"
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 
 const initialState: TasksStateType = {}
 
@@ -134,7 +133,7 @@ export const removeTaskTC = (arg: { todolistId: string; taskId: string }) => (di
 //   })
 // }
 
-export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
+export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   tasksApi
     .createTask(arg)
@@ -153,7 +152,7 @@ export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispat
 
 export const updateTaskTC =
   (arg: { taskId: string; todolistId: string; domainModel: UpdateTaskDomainModel }) =>
-  (dispatch: Dispatch, getState: () => RootState) => {
+  (dispatch: AppDispatch, getState: () => RootState) => {
     const { taskId, todolistId, domainModel } = arg
 
     const allTasksFromState = getState().tasks

@@ -1,6 +1,5 @@
 import { handleServerAppError } from "common/utils/handleServerAppError"
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
-import type { Dispatch } from "redux"
 import { type RequestStatus, setAppStatusAC } from "../../../app/app-reducer"
 import type { AppDispatch } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
@@ -104,7 +103,7 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
       handleServerNetworkError(error, dispatch)
     })
 }
-export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   todolistsApi
     .createTodolist(title)
@@ -114,6 +113,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
         const todolist = res.data.data.item
         dispatch(addTodolistAC(todolist))
       } else {
+        debugger
         handleServerAppError(res.data, dispatch)
       }
     })
@@ -121,7 +121,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
       handleServerNetworkError(error, dispatch)
     })
 }
-export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
+export const removeTodolistTC = (id: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   dispatch(changeTodolistEntityStatusAC({ id, entityStatus: "loading" }))
 
@@ -140,7 +140,7 @@ export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
       dispatch(changeTodolistEntityStatusAC({ id, entityStatus: "idle" }))
     })
 }
-export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: Dispatch) => {
+export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   todolistsApi
     .updateTodolist(arg)
